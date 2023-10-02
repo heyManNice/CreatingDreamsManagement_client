@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>警告</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #mylogid{
+            display: none;
+        }
+        body{
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #F6F6F6;
+        }
+        .main{
+            flex: 8;
+            position: relative;
+            padding: 1rem 2rem;
+        }
+        .btn{
+            flex: 1;
+            display: flex;
+            flex-direction: row-reverse;
+            align-items: center;
+            background-color: #f0f0f0;
+        }
+        .btn button{
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            box-sizing: border-box;
+            border: none;
+            border-radius: 0.3rem;
+            color: white;
+            transition: all 300ms;
+            cursor: pointer;
+            height: 3rem;
+            width: 7rem;
+            background-color:#03A9F4;
+            user-select: none;
+        }
+        .btn button:hover{
+            background-color:#0072af
+        }
+        .reboot{
+            margin-right: 2rem;
+        }
+        .shutdown{
+            margin-right: 2rem;
+        }
+        .card{
+            display: block;
+            position: absolute;
+            transition: all 300ms;
+            
+        }
+        .card p{
+            margin: 1rem 0rem;
+            text-indent: 2rem;
+            font-size: 1.3rem;
+        }
+        .card img{
+            display: block;
+            width: 16rem;
+            margin-top: 1.5rem;
+            margin-left: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0px 0px 0.4rem rgb(0, 0, 0,0.3);
+            user-select: none;
+        }
+        .card .Sc{
+            margin-left: 2rem;
+            font-size: 0.75rem;
+            user-select: none;
+        }
+        .icon{
+            font-size: 5rem;
+            user-select: none;
+        }
+    </style>
+    <style>
+        myconfirm{
+            position: fixed;
+            height: 100vh;
+            width: 100vw;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 300;
+            display: none;
+            animation: confirm_appear_background 300ms 1;
+        }
+        myconfirm .confirm_window{
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            height: fit-content;
+            width: 25rem;
+            background-color: white;
+            border-radius: 0.5rem;
+            box-sizing: border-box;
+            box-shadow: 0px 0px 1rem rgb(0, 0, 0,0.6);
+            overflow: hidden;
+            animation: confirm_appear 300ms 1;
+        }
+        .confirm_window .text{
+            padding: 2rem 1.5rem 1rem 1.5rem;
+        }
+        .confirm_window .text .title{
+            font-weight: bold;
+            font-size: 1.5rem;
+            margin: 0.5rem 0rem;
+        }
+        myconfirm .confirm_window .btn{
+            padding: 1rem 1.5rem 1rem 1.5rem;
+            background-color: #FBFBFC;
+            text-align: right;
+        }
+        myconfirm .confirm_window .btn button{
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            box-sizing: border-box;
+            border: none;
+            border-radius: 0.3rem;
+            color: white;
+            transition: all 300ms;
+            cursor: pointer;
+        }
+        myconfirm .confirm_window .btn .cancel{
+            background-color: #BDBDBD;
+        }
+        myconfirm .confirm_window .btn .cancel:hover{
+            background-color:#9e9e9e
+        }
+        myconfirm .confirm_window .btn .ok{
+            margin-right: 0.5rem;
+            background-color:#03A9F4;
+        }
+        myconfirm .confirm_window .btn .ok:hover{
+            background-color:#0072af
+        }
+        @keyframes confirm_appear{
+            from{
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to{
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        @keyframes confirm_appear_background{
+            from{
+                opacity: 0;
+            }
+            to{
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <span id="mylogid"></span>
+    <myconfirm>
+        <div class="confirm_window">
+            <div class="text">
+                <div class="title"><span class="fa fa-warning">#</span> <span class="title_text">错误检测？</span></div>
+                <div class="content">选择错误检测后该事件使用黄色背景“可疑”字样标注，提醒管理员注意校验。</div>
+            </div>
+            <div class="btn">
+                <button onclick="cancel()" class="cancel">取消</button>
+                <button onclick="errTodoitok()" class="ok">确定</button>
+            </div>
+        </div>
+    </myconfirm>
+    <div class="main">
+        <div class="card">
+            <span class="icon">:(</span>
+            <h1 id="mytitle">你似乎在浏览“ ”？</h1>
+            <p id="keyword">#对不起，学校的多媒体仅用于学习使用，禁止用于浏览“ ”。</p>
+            <p>#请马上关闭，系统会在60秒后重新检测。</p>
+            <p style="color: red;">#你的班级信息和屏幕截图已经提交至管理员。</p>
+            <p>#如果有错误检测，请点击“错误检测？”按钮。</p>
+            <img id="myimg" src="" alt="图片">
+            <span class="Sc">截图： </span>
+        </div>
+    </div>
+    <div class="btn">
+        <button class="shutdown" onclick="myapi.iknow()">我知道了！</button>
+        <button class="reboot" onclick="errTodoit()">错误检测？</button>
+    </div>
+</body>
+<script>
+    function errTodoitok(){
+        let logid = document.querySelector("#mylogid").innerHTML;
+        myapi.iterr(logid);
+    }
+    function errTodoit(){
+        document.querySelector("myconfirm").style.display="block"
+    }
+    function cancel(){
+        document.querySelector("myconfirm").style.display="none"
+    }
+</script>
+</html>

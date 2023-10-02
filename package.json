@@ -1,0 +1,28 @@
+{
+  "name": "schoolclient",
+  "version": "1.0.0",
+  "description": "Hello World!",
+  "main": "main.js",
+  "scripts": {
+    "start": "chcp 65001 && electron-forge start",
+    "test": "chcp 65001 && electron .",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
+  },
+  "author": "Jane Doe",
+  "license": "MIT",
+  "devDependencies": {
+    "@electron-forge/cli": "^6.1.1",
+    "@electron-forge/maker-deb": "^6.1.1",
+    "@electron-forge/maker-rpm": "^6.1.1",
+    "@electron-forge/maker-squirrel": "^6.1.1",
+    "@electron-forge/maker-zip": "^6.1.1",
+    "electron": "^23.3.0"
+  },
+  "dependencies": {
+    "desktop-screenshot": "^0.1.1",
+    "electron-squirrel-startup": "^1.0.0",
+    "ini": "^4.1.0",
+    "websocket": "^1.0.34"
+  }
+}

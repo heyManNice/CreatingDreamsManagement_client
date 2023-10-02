@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            height: 100vh;
+        }
+        .main{
+            display: flex;
+            flex-direction: column;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            position: absolute;
+            height: 40rem;
+            width: 40rem;
+        }
+        .main div{
+            margin: 0.3rem 0rem;
+            text-align: center;
+            
+        }
+        .title{
+            font-size: 3rem;
+        }
+        .mybtn_L{
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            box-sizing: border-box;
+            border: none;
+            border-radius: 0.3rem;
+            transition: all 300ms;
+            border: 0.1rem solid #03A9F4;
+            outline: none;
+        }
+        button{
+            width: 20rem;
+            background-color: rgb(1, 135, 230);
+            color: white;
+            cursor: pointer;
+        }
+        button:hover{
+            background-color: rgb(0, 114, 196);
+        }
+        select{
+            cursor: pointer;
+            width: 20rem;
+            color: black;
+            
+        }
+        select:hover{
+            background-color: rgb(228, 228, 228);
+        }
+        .school:hover{
+            background-color: rgb(228, 228, 228);
+        }
+        .school:focus{
+            box-shadow: 0px 0px 0.3rem #03A9F4;
+        }
+        .school{
+            width: 20rem;
+            cursor: text;
+            color: black;
+        }
+
+        label{
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .schools{
+            top: 13.3rem;
+            left: 4rem;
+            position: absolute;
+            width: 100%;
+            margin: -4rem !important;
+        }
+        .schools_card{
+            left: 0;
+            right: 0;
+            margin: auto;
+            display: block;
+            width: 20rem;
+            background-color: white;
+            font-size: 1rem;
+            box-shadow: 0 0.1rem 0.3rem rgba(0, 0, 0, 0.4);
+            border-radius: 0.2rem;
+            text-align: left;
+            padding: 0.001rem;
+            animation: op0to1 300ms 1;
+            display: none;
+        }
+        @keyframes op0to1{
+            from{
+                opacity: 0;
+            }
+            to{
+                opacity: 1;
+            }
+        }
+        .schools_card_item{
+            display: block;
+            margin: 0.3rem 1.1rem;
+            font-size: 1.25rem;
+            cursor: pointer;
+        }
+        .schoolNameMatch{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="schools">
+            <span id="schools_card" class="schools_card">
+                
+            </span>
+        </div>
+        <div class="title">
+            注册多媒体
+        </div>
+        <div class="input">
+            <label for="school">
+                学校
+            </label><br>
+            <input onkeydown="inputkeydown()" class="school mybtn_L" type="text" name="school" id="school">
+        </div>
+        <div>
+            <label for="grade">
+                年级
+            </label><br>
+            <select class="mybtn_L" name="grade" id="grade">
+                <option value="0">
+                    请选择
+                </option>
+                <option value="7">
+                    七年级
+                </option>
+                <option value="8">
+                    八年级
+                </option>
+                <option value="9">
+                    九年级
+                </option>
+            </select>
+        </div>
+        <div>
+            <label for="class">
+                班级
+            </label><br>
+            <select class="mybtn_L" name="class" id="class">
+                
+            </select>
+        </div>
+        <div class="btn">
+            <button onclick="toRegister()" class="mybtn_L">注册</button>
+        </div>
+        <div class="btn">
+            <button onclick="myapi.shutdown()" class="mybtn_L">关机</button>
+        </div>
+        <div class="btn">
+            <button onclick="myapi.reboot()" class="mybtn_L">重启</button>
+        </div>
+    </div>
+</body>
+<script>
+var schools = [
+            "你的大学",
+            "希望中学",
+            "你的中学"
+        ]
+window.onload=function(){
+    let op = '<option value="0">请选择</option>';
+    for(let i = 1;i<=20;i++){
+        op+=`<option value="${i}">${i}班</option>`
+    }
+    document.querySelector("#class").innerHTML=op;
+}
+function clickSchool(e){
+    document.querySelector("#school").value=e.innerText;
+    document.querySelector("#schools_card").style.display='none';
+}
+timer=undefined;
+function inputkeydown(){
+    if(timer)clearTimeout(timer);
+    timer =setTimeout(function(){
+        searchSchool();
+        
+    },300)
+}
+function searchSchool(value){
+    let card = document.querySelector("#schools_card")
+    //初始化
+    vueData={
+        schoolInput:document.querySelector("#school").value,
+        schoolSearchList:[],
+        schoolNameList:schools
+    }
+    //搜索算法
+    if(vueData.schoolInput==""){
+        card.style.display='none';
+        return
+    }
+    let name = vueData.schoolInput.match(/[\u4e00-\u9fa5]/g);
+    if(name){
+        name=name.join("")
+    }else{
+        return
+    }
+    vueData.schoolSearchList=[];
+    let f = 1;
+    for(key in vueData.schoolNameList){
+        let index = vueData.schoolNameList[key].indexOf(name)
+        if(index == -1){
+            continue;
+        }
+        let src_name = vueData.schoolNameList[key];
+        let namef = `${src_name.slice(0,index)}<span class="schoolNameMatch">${src_name.slice(index,index+name.length)}</span>${src_name.slice(index+name.length)}`
+        vueData.schoolSearchList.push(namef);
+        f = 0;
+    }
+    if(f){
+        vueData.schoolSearchList.push("找不到该学校")
+    }
+    //渲染
+    let allItme='';
+    for(key in vueData.schoolSearchList){
+        allItme+=`<span onclick="clickSchool(this)" class="schools_card_item">${vueData.schoolSearchList[key]}</span>`
+    }
+    card.innerHTML=allItme;
+    card.style.display='block';
+    if(!allItme){
+        card.style.display='none';
+        }
+    }
+    //注册
+    function toRegister(){
+        let school_data=document.querySelector("#school").value;
+        let grade_data=document.querySelector("#grade").value
+        let class_data = document.querySelector("#class").value;
+        if(school_data==''||schools.indexOf(school_data)==-1||grade_data=='0'||class_data=='0'){
+            alert("请按要求填写内容");
+            return
+        }
+        myapi.register({schoolName:school_data,class:{grade:grade_data,class:class_data}});
+    }
+</script>
+<!-- <script src="./renderer.js"></script> -->
+</html>
